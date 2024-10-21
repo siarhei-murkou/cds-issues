@@ -1,0 +1,37 @@
+{
+    "runtime": {
+        "allow_upsert": false
+    },
+    "features": {
+        "assert_integrity": "db"
+    },
+    "odata": {
+        "structs": true,
+        "refs": false,
+        "proxies": false,
+        "safe_ax": false,
+        "containment": false
+    },
+    "requires": {
+        "db": {
+            "[development]": {
+                "kind": "sqlite",
+                "impl": "@cap-js/sqlite",
+                "model": ["db", "srv"],
+                "credentials": {
+                    "url": "local.db"
+                }
+            },
+            "[test]": {
+                "kind": "sqlite",
+                "model": ["db", "srv", "srv/extensions/test"],
+                "impl": "@cap-js/sqlite"
+            }
+        },
+        "auth": {
+            "[development]": {
+                "kind": "dummy"
+            }
+        }
+    }
+}

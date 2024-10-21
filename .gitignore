@@ -1,0 +1,36 @@
+/.idea
+/.vscode
+/.run
+/node_modules
+/db/node_modules
+/app/node_modules
+
+# SQLite DB artifacts
+local.db
+local.db-*
+
+# CDS Built Artifacts
+/gen
+
+# MTA Built Artifacts
+/mta_archives
+
+# Downloaded MTA operations
+/mta-op-*
+
+# Compiled CDS files
+srv/@cds-models
+
+# Compiled TS files
+/srv/dist
+
+# BTP Credentials
+default-env.json
+
+# WebStorm test coverage
+coverage/
+
+# MTA credentials
+/ci/dev.cred.mtaext.yaml
+/ci/test.cred.mtaext.yaml
+/ci/prod.cred.mtaext.yaml

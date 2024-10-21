@@ -1,0 +1,8 @@
+{
+    "rootDir": "./srv",
+    "transform": {
+        "^.+\\.ts$": ["ts-jest", { "tsconfig": "./srv/test/tsconfig.json" }]
+    },
+    "transformIgnorePatterns": ["/node_modules/", "^.+\\.js$"],
+    "workerIdleMemoryLimit": "512MiB"
+}

@@ -1,0 +1,34 @@
+{
+    "name": "cds-issues",
+    "version": "0.0.0",
+    "scripts": {
+        "format:cds": "format-cds -f --silent",
+        "compile:cds": "cds-typer \"*\" --outputDirectory ./srv/@cds-models --logLevel ERROR --propertiesOptional false",
+        "compile:ts": "tsc -p .",
+        "start:sqlite:in:memory": "cds-serve --profile development --in-memory",
+        "start:sqlite:in:file": "cds-serve --profile development",
+        "test": "jest --colors --verbose -i --testTimeout=30000",
+        "deploy:sqlite": "cds deploy --to sqlite:local.db"
+    },
+    "dependencies": {
+        "@cap-js/sqlite": "1.7.4",
+        "@sap/cds": "8.3.1"
+    },
+    "devDependencies": {
+        "@cap-js/cds-typer": "0.27.0",
+        "@cap-js/cds-types": "0.6.5",
+        "@sap/cds-dk": "8.3.0",
+        "@types/jest": "29.5.13",
+        "@types/node": "20.16.13",
+        "axios": "1.7.7",
+        "jest": "29.7.0",
+        "prettier": "3.3.3",
+        "ts-jest": "29.2.5",
+        "typescript": "5.6.3"
+    },
+    "imports": {
+        "#cds-models/*": "./srv/@cds-models/*/index.js"
+    },
+    "author": "Siarhei Murkou",
+    "license": "ISC"
+}

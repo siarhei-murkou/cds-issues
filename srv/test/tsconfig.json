@@ -1,0 +1,29 @@
+{
+    "include": ["../src", "../test"],
+    "compilerOptions": {
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "ES2023",
+        "sourceMap": true,
+        "lib": ["ES2023"],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowJs": false,
+        "allowSyntheticDefaultImports": true,
+        "removeComments": true,
+        "pretty": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "allowUnreachableCode": false,
+        "forceConsistentCasingInFileNames": true,
+        "strictPropertyInitialization": false,
+        "exactOptionalPropertyTypes": true,
+        "newLine": "crlf",
+        "alwaysStrict": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "noEmit": true
+    }
+}
