@@ -26,4 +26,19 @@ describe("Dummy Service", () => {
 
         expect(dummies).toStrictEqual([]);
     });
+
+    it("should call execute() via test() & return 500 via test()", async () => {
+        const response = await instance.post("/dummy-service/test");
+        expect(response.status).toBe(500);
+    });
+
+    it("should get 1 dummy created via execute()", async () => {
+        const dummies: cds_db_dummy.Dummy[] = await db.run(
+            SELECT.from(cds_runtime.db_dummy().Dummies),
+        );
+
+        expect(dummies).toStrictEqual([
+            { name: "test", description: "Test Description" } satisfies cds_db_dummy.Dummy,
+        ]);
+    });
 });
