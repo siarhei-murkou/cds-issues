@@ -5,4 +5,5 @@ using sap.cap.issues as db from '../db';
 service DummyService {
     entity Dummies as projection on db.Dummies;
     function randomize() returns Integer not null;
+    action   execute();
 }

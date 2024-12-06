@@ -1,6 +1,8 @@
 namespace sap.cap.issues;
 
+@PersonalData.DataSubjectRole: 'Customer'
+@PersonalData.EntitySemantics: 'DataSubject'
 entity Dummies {
-    name        : String not null;
-    description : String;
+    key name        : String not null @PersonalData.FieldSemantics: 'DataSubjectID';
+        description : String          @PersonalData.IsPotentiallyPersonal;
 }

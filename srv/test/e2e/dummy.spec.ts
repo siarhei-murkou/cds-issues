@@ -1,15 +1,15 @@
-import cds, { Service } from "@sap/cds";
-import { cds_db_dummy, cds_runtime } from "../../src/cds";
 import { initializeMockCdsServer } from "./utils/init.mock.cds.server";
+import MockAuditLogCdsService from "../../src/event-handlers/mock.audit.log.cds.service";
 
 describe("Dummy Service", () => {
     const { instance, start } = initializeMockCdsServer();
-    let db: Service;
 
     beforeAll(async () => {
         await start();
-        db = await cds.connect.to("db");
+        MockAuditLogCdsService.retain = true;
     });
+
+    afterEach(() => (MockAuditLogCdsService.logs = []));
 
     it("should call randomize(...)", async () => {
         const response = await instance.get("/dummy-service/randomize()");
@@ -19,11 +19,53 @@ describe("Dummy Service", () => {
         expect(body.value).toStrictEqual(expect.any(Number));
     });
 
-    it("should get 0 dummies", async () => {
-        const dummies: cds_db_dummy.Dummy[] = await db.run(
-            SELECT.from(cds_runtime.db_dummy().Dummies),
-        );
+    it("should call execute(...)", async () => {
+        const response = await instance.post("/dummy-service/execute");
+        expect(response.status).toBe(204);
 
-        expect(dummies).toStrictEqual([]);
+        // (!BUG) there should have been 3 more audit logs per INSERT, UPDATE, DELETE queries
+        expect(MockAuditLogCdsService.logs).toStrictEqual([
+            {
+                event: "SecurityEvent",
+                data: expect.objectContaining({
+                    data: expect.objectContaining({
+                        summary: "Dummy is Created, Updated & Deleted",
+                    }),
+                }),
+            },
+        ]);
+    });
+
+    it("should call POST & DELETE on dummies", async () => {
+        {
+            const response = await instance.post("/dummy-service/Dummies", {
+                name: "test",
+                description: "Custom Description",
+            });
+
+            expect(response.status).toBe(201);
+        }
+
+        {
+            const response = await instance.delete("/dummy-service/Dummies(name='test')");
+            expect(response.status).toBe(204);
+        }
+
+        expect(MockAuditLogCdsService.logs).toStrictEqual([
+            // audit log triggered by POST request
+            {
+                event: "PersonalDataModified",
+                data: expect.objectContaining({
+                    attributes: [{ name: "description", new: "Custom Description" }],
+                }),
+            },
+            // audit log triggered by DELETE request
+            {
+                event: "PersonalDataModified",
+                data: expect.objectContaining({
+                    attributes: [{ name: "description", old: "Custom Description" }],
+                }),
+            },
+        ]);
     });
 });

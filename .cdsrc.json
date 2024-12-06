@@ -5,6 +5,7 @@
     "features": {
         "assert_integrity": "db"
     },
+    "audit-log": true,
     "odata": {
         "structs": true,
         "refs": false,
@@ -32,6 +33,10 @@
             "[development]": {
                 "kind": "dummy"
             }
+        },
+        "audit-log": {
+            "outbox": false,
+            "impl": "/srv/src/event-handlers/mock.audit.log.cds.service"
         }
     }
 }
