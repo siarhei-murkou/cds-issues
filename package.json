@@ -11,13 +11,13 @@
         "deploy:sqlite": "cds deploy --to sqlite:local.db"
     },
     "dependencies": {
-        "@cap-js/sqlite": "1.7.8",
-        "@sap/cds": "8.6.1"
+        "@cap-js/sqlite": "1.7.3",
+        "@sap/cds": "8.3.1"
     },
     "devDependencies": {
         "@cap-js/cds-typer": "0.26.0",
         "@cap-js/cds-types": "0.7.0",
-        "@sap/cds-dk": "8.6.1",
+        "@sap/cds-dk": "8.3.0",
         "@types/jest": "29.5.14",
         "@types/node": "20.17.12",
         "axios": "1.7.9",
