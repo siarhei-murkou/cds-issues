@@ -56,8 +56,6 @@ describe("Dummy Service", () => {
         {
             const response = await instance.get("/dummy-service/SharedSubObjects");
             expect(response.status).toBe(200);
-
-            // (!BUG) the objects should have been auto-removed by DELETE on SharedTopObjects
             expect(response.data).toStrictEqual(expect.objectContaining({ value: [] }));
         }
     });
