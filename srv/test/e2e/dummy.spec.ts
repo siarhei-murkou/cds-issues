@@ -72,4 +72,10 @@ describe("Dummy Service", () => {
             expect.objectContaining({ value: [] }),
         ]);
     });
+
+    it("should disallow deleting advanced shared top objects with no conditions", async () => {
+        await expect(
+            db.run(DELETE.from(cds_runtime.db_dummy().AdvancedSharedTopObjects)),
+        ).rejects.toThrow();
+    });
 });

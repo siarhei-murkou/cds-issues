@@ -38,6 +38,21 @@ export async function initializeServer(o: unknown) {
                             ? SELECT.from(query.DELETE.from)
                             : SELECT.from(query.DELETE.from);
 
+                    /** disallow deleting with no conditions */
+                    if (
+                        (!query.DELETE.where || !query.DELETE.where.length) &&
+                        (typeof query.DELETE.from === "string" ||
+                            !query.DELETE.from.ref ||
+                            !query.DELETE.from.ref!.some(
+                                segment =>
+                                    typeof segment !== "string" &&
+                                    !!segment.where &&
+                                    !!segment.where.length,
+                            ))
+                    ) {
+                        throw Error("You must define where(...) condition per DELETE query");
+                    }
+
                     await db.run(
                         DELETE.from(`${table} as ss`).where({
                             exists: select
