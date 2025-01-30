@@ -25,18 +25,24 @@ export async function initializeServer(o: unknown) {
 
             db.on("DELETE", targets, async (request, next) => {
                 const { target, query } = request;
-                assert.ok(query.DELETE);
+                assert.ok(query.DELETE, 'the property "request.query.DELETE" not found');
 
                 /** double-checking to avoid accident removal in other DB tables */
                 if (targets.some(({ name }) => name === target.name)) {
                     logger.info(`(HERE WE GO) — deleting records over ${target.name}...`);
 
                     const table = cds_runtime.db_dummy().SharedSubObjects.name;
+
+                    const select =
+                        typeof query.DELETE.from === "string"
+                            ? SELECT.from(query.DELETE.from)
+                            : SELECT.from(query.DELETE.from);
+
                     await db.run(
                         DELETE.from(`${table} as ss`).where({
-                            exists: SELECT.from(cds_runtime.db_dummy().AdvancedSharedTopObjects)
+                            exists: select
                                 .alias("ast")
-                                .where(query.DELETE.where ?? request.data ?? {})
+                                .where(query.DELETE.where ?? {})
                                 .where("linked.sub_ID = ss.sub_ID")
                                 .where("linked.shared_ID = ss.shared_ID"),
                         }),
