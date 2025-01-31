@@ -31,22 +31,36 @@ export async function initializeServer(o: unknown) {
                 if (targets.some(({ name }) => name === target.name)) {
                     logger.info(`(HERE WE GO) — deleting records over ${target.name}...`);
 
-                    const table = cds_runtime.db_dummy().SharedSubObjects.name;
-
-                    const select =
-                        typeof query.DELETE.from === "string"
-                            ? SELECT.from(query.DELETE.from)
-                            : SELECT.from(query.DELETE.from);
-
-                    await db.run(
-                        DELETE.from(`${table} as ss`).where({
-                            exists: select
-                                .alias("ast")
-                                .where(query.DELETE.where ?? {})
-                                .where("linked.sub_ID = ss.sub_ID")
-                                .where("linked.shared_ID = ss.shared_ID"),
-                        }),
+                    assert.ok(
+                        typeof query.DELETE.from !== "string",
+                        'the property "request.query.DELETE.from" must not be a string',
                     );
+
+                    assert.ok(
+                        "ref" in query.DELETE.from && query.DELETE.from.ref,
+                        'the property "request.query.DELETE.from.ref" must be defined',
+                    );
+
+                    assert.ok(
+                        query.DELETE.from.ref.length > 0,
+                        'the property "request.query.DELETE.from.ref" must be non-empty array',
+                    );
+
+                    const ref = [...query.DELETE.from.ref];
+
+                    const last = ref.length - 1;
+                    if (typeof ref[last] === "string" && query.DELETE.where) {
+                        const id = ref[last];
+
+                        // @ts-expect-error FIXME: cast predicate to xpr
+                        ref[last] = { id, where: query.DELETE.where };
+                    }
+
+                    type TargetEntityProperty = keyof (typeof targets)[0]["prototype"][0];
+
+                    ref.push("linked" satisfies TargetEntityProperty);
+
+                    await db.run(DELETE.from({ ref }));
                 }
 
                 return next();
