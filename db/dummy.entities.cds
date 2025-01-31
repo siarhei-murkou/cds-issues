@@ -42,6 +42,16 @@ entity SharedSubObjects {
     @assert.target key shared : Association to one SharedObjects;
     @assert.target key sub    : Association to one SubObjects;
                        type   : String not null;
+
+                       extra  : Composition of many SubExtraObjects
+                                    on  extra.sub    = $self.sub
+                                    and extra.shared = $self.shared;
+}
+
+entity SubExtraObjects {
+    @assert.target key sub     : Association to one SubObjects;
+    @assert.target key shared  : Association to one SharedObjects;
+    key                role_ID : UUID;
 }
 
 entity SharedTopObjects {
