@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import cds, { Service } from "@sap/cds";
 import { cds_db_dummy, cds_runtime } from "../../src/cds";
 import { initializeMockCdsServer } from "./utils/init.mock.cds.server";
@@ -10,6 +11,8 @@ describe("Dummy Service", () => {
         await start();
         db = await cds.connect.to("db");
     });
+
+    const dummy_ID = randomUUID();
 
     it("should call randomize(...)", async () => {
         const response = await instance.get("/dummy-service/randomize()");
@@ -25,5 +28,55 @@ describe("Dummy Service", () => {
         );
 
         expect(dummies).toStrictEqual([]);
+    });
+
+    it("should create new dummy with all props", async () => {
+        await db.run(
+            INSERT.into(cds_runtime.db_dummy().Dummies).entries([
+                {
+                    ID: dummy_ID,
+                    name: "test 1",
+                    optionalProp001: "001",
+                    optionalProp002: "002",
+                    optionalProp003: "003",
+                    optionalProp004: "004",
+                    nested: [],
+                },
+            ]),
+        );
+    });
+
+    it('should create new dummy with "name" only', async () => {
+        /**
+         * FIXME: It must never be an error!
+         *  Currently TypeScript expects the whole object to be provided via INSERT(...)
+         */
+        // @ts-expect-error
+        await db.run(INSERT.into(cds_runtime.db_dummy().Dummies).entries([{ name: "test 2" }]));
+    });
+
+    it("should select dummy by key", async () => {
+        /**
+         * FIXME: Is `byKey(...)` no longer supported by CAP CDS library ?
+         *  If so, then why it's still callable and returns some objects from DB ?
+         */
+        // @ts-expect-error
+        const dummy = await SELECT.from(cds_runtime.db_dummy().Dummies).byKey(dummy_ID);
+        expect(dummy).toBeDefined();
+    });
+
+    it("should update dummy with nested objs", async () => {
+        await db.run(
+            UPDATE.entity(cds_runtime.db_dummy().Dummies)
+                .byKey(dummy_ID)
+                /**
+                 * FIXME: It must never be an error!
+                 *  Currently TypeScript requires the whole object to be provided in property "nested"
+                 */
+                // @ts-expect-error
+                .set({
+                    nested: [{ ID: randomUUID() }],
+                }),
+        );
     });
 });
