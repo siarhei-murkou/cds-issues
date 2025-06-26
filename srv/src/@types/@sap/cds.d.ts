@@ -5,5 +5,10 @@ declare module "@sap/cds" {
         interface SELECT<T> extends cds.ql.SELECT<T> {
             byKey(x: number | string | object): this;
         }
+
+        interface INSERT<T> extends cds.ql.INSERT<T> {
+            entries(entries: Partial<T>[]): this;
+            entries(...entries: Partial<T>[]): this;
+        }
     }
 }

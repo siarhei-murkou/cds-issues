@@ -47,11 +47,6 @@ describe("Dummy Service", () => {
     });
 
     it('should create new dummy with "name" only', async () => {
-        /**
-         * FIXME: It must never be an error!
-         *  Currently TypeScript expects the whole object to be provided via INSERT(...)
-         */
-        // @ts-expect-error
         await db.run(INSERT.into(cds_runtime.db_dummy().Dummies).entries([{ name: "test 2" }]));
     });
 
