@@ -56,11 +56,6 @@ describe("Dummy Service", () => {
     });
 
     it("should select dummy by key", async () => {
-        /**
-         * FIXME: Is `byKey(...)` no longer supported by CAP CDS library ?
-         *  If so, then why it's still callable and returns some objects from DB ?
-         */
-        // @ts-expect-error
         const dummy = await SELECT.from(cds_runtime.db_dummy().Dummies).byKey(dummy_ID);
         expect(dummy).toBeDefined();
     });
