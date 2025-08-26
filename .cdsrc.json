@@ -5,6 +5,13 @@
     "features": {
         "assert_integrity": "db"
     },
+    "typer": {
+        "build_task": false,
+        "use_entities_proxy": false,
+        "properties_optional": false,
+        "inline_declarations": "structured",
+        "output_directory": "./srv/@cds-models"
+    },
     "odata": {
         "structs": true,
         "refs": false,

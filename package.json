@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "format:cds": "format-cds -f --silent",
-        "compile:cds": "cds-typer \"*\" --outputDirectory ./srv/@cds-models --logLevel ERROR --propertiesOptional false",
+        "compile:cds": "cds-typer \"*\" --logLevel ERROR",
         "compile:ts": "tsc -p .",
         "start:sqlite:in:memory": "cds-serve --profile development --in-memory",
         "start:sqlite:in:file": "cds-serve --profile development",

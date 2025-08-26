@@ -24,6 +24,9 @@ srv/@cds-models
 # Compiled TS files
 /srv/dist
 
+# WebStorm CAP CDS plugin
+/.cds-lsp
+
 # BTP Credentials
 default-env.json
 
