@@ -4,5 +4,6 @@ using sap.cap.issues as db from '../db';
 @impl: './dist/event-handlers/dummy.cds.service'
 service DummyService {
     entity Dummies as projection on db.Dummies;
-    function randomize() returns Integer not null;
+    function randomize()                          returns Integer not null;
+    function ping( @mandatory p: String not null) returns String not null;
 }

@@ -26,4 +26,12 @@ describe("Dummy Service", () => {
 
         expect(dummies).toStrictEqual([]);
     });
+
+    it("should fail to call ping() with no param", async () => {
+        const response = await instance.get("/dummy-service/ping()");
+        expect(response.status).toBe(400);
+        expect(response.data).toStrictEqual({
+            error: expect.objectContaining({ message: "Value is required" }),
+        });
+    });
 });
