@@ -12,13 +12,13 @@
     },
     "dependencies": {
         "@cap-js/sqlite": "2.0.2",
-        "@sap/cds": "9.2.1"
+        "@sap/cds": "9.4.4"
     },
     "devDependencies": {
         "@cap-js/cds-test": "0.4.0",
-        "@cap-js/cds-typer": "0.36.0",
-        "@cap-js/cds-types": "0.13.0",
-        "@sap/cds-dk": "9.2.1",
+        "@cap-js/cds-typer": "0.38.0",
+        "@cap-js/cds-types": "0.15.0",
+        "@sap/cds-dk": "9.4.3",
         "@types/jest": "30.0.0",
         "@types/node": "20.19.11",
         "axios": "1.11.0",
