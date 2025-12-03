@@ -11,20 +11,20 @@
         "deploy:sqlite": "cds deploy --to sqlite:local.db"
     },
     "dependencies": {
-        "@cap-js/sqlite": "2.0.2",
-        "@sap/cds": "9.2.1"
+        "@cap-js/sqlite": "2.1.0",
+        "@sap/cds": "9.5.1"
     },
     "devDependencies": {
-        "@cap-js/cds-test": "0.4.0",
-        "@cap-js/cds-typer": "0.36.0",
-        "@cap-js/cds-types": "0.13.0",
-        "@sap/cds-dk": "9.2.1",
+        "@cap-js/cds-test": "0.4.1",
+        "@cap-js/cds-typer": "0.38.0",
+        "@cap-js/cds-types": "0.15.0",
+        "@sap/cds-dk": "9.5.0",
         "@types/jest": "30.0.0",
-        "@types/node": "20.19.11",
-        "axios": "1.11.0",
-        "jest": "30.0.5",
-        "prettier": "3.6.2",
-        "ts-jest": "29.4.1",
+        "@types/node": "22.19.1",
+        "axios": "1.13.2",
+        "jest": "30.2.0",
+        "prettier": "3.7.4",
+        "ts-jest": "29.4.6",
         "typescript": "5.6.3"
     },
     "imports": {
